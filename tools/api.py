@@ -435,8 +435,8 @@ if __name__ == "__main__":
     list(
         inference(
             InvokeRequest(
-                text="Hello world.",
-                reference_text=None,
+                text="你好，世界。",
+                reference_text="我一辈子走过许多地方的路，行过许多地方的桥，看过许多次数的云，喝过许多种类的酒，却只爱过一个正当最好年龄的人。",
                 reference_audio=None,
                 max_new_tokens=0,
                 top_p=0.7,
@@ -446,6 +446,7 @@ if __name__ == "__main__":
                 format="wav",
                 ref_base=None,
                 ref_json=None,
+                speaker="audios/xiaowei_fish_zh.npy",
             )
         )
     )

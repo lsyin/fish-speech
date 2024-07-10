@@ -205,6 +205,7 @@ def get_content_type(audio_format):
 @torch.inference_mode()
 def inference(req: InvokeRequest):
     # Parse reference audio aka prompt
+    '''
     prompt_tokens = None
 
     ref_data = load_json(req.ref_json)
@@ -219,13 +220,20 @@ def inference(req: InvokeRequest):
         req.reference_text = ref_text
         logger.info("ref_path: " + str(wav_path))
         logger.info("ref_text: " + ref_text)
-
+   
     # Parse reference audio aka prompt
     prompt_tokens = encode_reference(
         decoder_model=decoder_model,
         reference_audio=req.reference_audio,
         enable_reference_audio=req.reference_audio is not None,
     )
+     '''
+    spk_path = req.speaker
+    logger.info(f"Processing precomputed indices from {spk_path}")
+    prompt_tokens = np.load(spk_path)
+    prompt_tokens = torch.from_numpy(prompt_tokens).to(decoder_model.device).long()
+    assert prompt_tokens.ndim == 2, f"Expected 2D indices, got {prompt_tokens.ndim}"
+    
     logger.info(f"ref_text: {req.reference_text}")
     # LLAMA Inference
     request = dict(
